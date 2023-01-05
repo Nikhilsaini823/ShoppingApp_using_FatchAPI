@@ -1,0 +1,13 @@
+.imgsize{
+    height: 300px;
+    width: 18rem;
+  }
+
+.space{
+  flex-grow: 0;
+  }
+
+.center{
+  text-align: center;
+}
+  
