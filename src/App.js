@@ -8,6 +8,7 @@ import PublicRoute from "./component/PublicRoute";
 import Sliders from "./component/Home/Slider/Sliders";
 import Products from "./component/Product/Products";
 import ProductDetail from "./component/Product/ProductDetail";
+import Jobform from "./component/JobProfile/Jobform";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/sliders" element={<PublicRoute component={Sliders} />} />
       <Route path="/product" element={<PublicRoute component={Products}/>}/>
       <Route path="/productdetails/:id" element={<PublicRoute component={ProductDetail}/>}/>
+      <Route path="/jobform" element={<PublicRoute component={Jobform}/>}/>
     </Routes>
   </BrowserRouter>
   );

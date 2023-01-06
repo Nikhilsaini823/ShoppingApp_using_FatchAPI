@@ -20,6 +20,9 @@ function Navbar() {
                   <li className="nav-item">
                     <Link className="nav-link" to="/product">Product</Link>
                   </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/jobform">Job Form</Link>
+                  </li>
               </ul>
               <div style={{marginLeft: "auto"}}>
                 <form className="d-flex" role="search">
