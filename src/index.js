@@ -3,11 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Navigation from './component/JobProfile/Jobform';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>    
     <App />
+    <Navigation />
   </React.StrictMode>
 );
 
