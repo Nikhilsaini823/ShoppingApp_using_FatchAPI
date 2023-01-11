@@ -1,176 +1,140 @@
 import React from 'react'
-import  { useState } from "react";
+import { useState } from "react";
 import "./Jobform.css"
 
 export const Jobform = () => {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [pincode, setPincode] = useState('')
-    const [fulladdress, setFullAddress ] = useState('')
-    const [gender, setGender] = useState('')
-    const [states, setStates] = useState('')
-    const [distt, setDistt] = useState('')
-    const [nameErr,setNameErr] = useState('')
-    const [emailErr, setEmailErr] = useState('')
-    const [passwordErr, setPasswordErr] = useState('')
-    const [pincodeErr, setPincodeErr] = useState('')
-    const [fulladdressErr, setFullAddressErr] = useState('')
-    const [genderErr, setGenderErr] = useState('')
-    const [statesErr, setStatesErr] = useState('')
-    const [disttErr, setDisstErr] = useState('')
+    const [finalError, setFinalError] = useState({})
+    const [formData, setFormData] = useState({});
 
+    const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress'];
 
-    const handleNameChange = (event) =>{
-        setNameErr("")
-        setName(event.target.value)
-    }  
-    const hendleEmailChange = (event) =>{
-        setEmailErr('')
-        setEmail(event.target.value)
-    }
-    const hendlePasswordChange = (event) =>{
-        setPasswordErr('')
-        setPassword(event.target.value)
-    }
-    const hendlePincodeChange = (event) => {
-        setPincodeErr('')
-        setPincode(event.target.value)
-    }
-    const hendleFulladdChange = (event) =>{
-        setFullAddressErr('')
-        setFullAddress(event.target.value)
-    }
-    const hendelGenderChange = (event) =>{
-        setGenderErr('')
-        setGender(event.target.value)
-    }
-    const hendleStatesChange = (event) =>{
-        setStatesErr('')
-        setStates(event.target.value)
-    }
-    const hendleDisttChange= (event) =>{
-        setDisstErr('')
-        setDistt(event.target.value)
+    const handleErrorMessage = (e) => {
+        if (e.target.value === '') {
+            setFinalError({ [e.target.name]: `${e.target.name} Should be required`, ...finalError });
+            for (const key in formData) {
+                if (key === e.target.name) {
+                    delete formData[key];
+                } else {
+                    setFormData({ ...formData });
+                }
+            }
+        } 
+        else {
+            for (const key in finalError) {
+                if (key === e.target.name) {
+                    delete finalError[key];
+                } else {
+                    setFinalError({ ...finalError });
+                }
+            }
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
     }
 
-    const validate = (e) => {
-        let status = true
-        e.preventDefault();
-        if (name.length === 0 ){
-            setNameErr('This field is required')
+    const finalData = [];
+    const validate = (event) => {
+        event.preventDefault();
+        if (formData && Object.keys(formData).length === formFields.length) {
+            finalData.push(formData); 
+            console.log(finalData) 
         }
-        if (email.length === 0){
-            setEmailErr('This field is required')
+        else {
+            let finalError = {};
+            for (const value of formFields) {
+                if (!formData[value]) {
+                    finalError = { ...finalError, [value]: `${value} Should be required` };
+                }
+            }
+            setFinalError({ ...finalError });
         }
-        if (password.length === 0){
-            setPasswordErr('This field is required')
-        }
-        if (pincode.length === 0){
-            setPincodeErr('This field is required')
-        }
-        if (fulladdress.length === 0){
-            setFullAddressErr('This field is required')
-        }
-        if (gender.length === 0){
-            setGenderErr('Select atleast one button')
-        }
-        if (states.length === 0){
-            setStatesErr('Please select State')
-        }
-        if (distt.length === 0){
-            setDisstErr('Please select District')
-        }
-        return status 
-    }   
-    
-   
-  return (   
+    }
+
+
+    return (
         <form onSubmit={validate} className='container'>
             <h1 className="mt-3">Job Form</h1>
             <div className="form-row mt-3">
                 <div className="form-group col-md-6">
                     <label htmlFor="text">Name</label>
-                    <input type="text" className="form-control"  placeholder="Name" onChange={handleNameChange}/>
-                    <p className='msgcolor'>{nameErr}</p>
+                    <input type="text" className="form-control" name='name' placeholder="name" onChange={(e) => {
+                        handleErrorMessage(e);
+                    }} />
+                    {finalError.name && <p className='msgcolor' >{finalError.name}</p>}
                 </div>
                 <div className="form-group col-md-6">
-                        <label htmlFor="text">Gender</label>
+                    <label htmlFor="text">Gender</label>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="radio" onChange={hendelGenderChange} />
+                        <input className="form-check-input" type="radio" value="male" name="radio" onChange={(e) => handleErrorMessage(e)} />
                         <label className="radio-button" htmlFor="radio-button">Male</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="radio" onChange={hendelGenderChange}  />
+                        <input className="form-check-input" type="radio" value="female" name="radio" onChange={(e) => handleErrorMessage(e)} />
                         <label className="form-check-label" htmlFor="radio-button">Female</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="radio" onChange={hendelGenderChange}/>
+                        <input className="form-check-input" type="radio" name="radio" value="others" onChange={(e) => handleErrorMessage(e)} />
                         <label className="form-check-label" htmlFor="radio-button">Other</label>
                     </div>
-                    <p className='msgcolor'>{genderErr}</p>
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="inputEmail4">Email</label>
-                    <input type="email" className="form-control"  placeholder="Email" onChange={hendleEmailChange}/>
-                    <p className='msgcolor'>{emailErr}</p>
+                    <input type="email" className="form-control" name='email' placeholder="Email" onChange={(e) => {
+                        handleErrorMessage(e);
+                    }} />
+                    {finalError.email && <p className='msgcolor ' >{finalError.email}</p>}
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="inputPassword4">Password</label>
-                    <input type="password" className="form-control"  placeholder="Password" onChange={hendlePasswordChange}/>
-                    <p className='msgcolor'>{passwordErr}</p>
+                    <input type="password" className="form-control" name='password' placeholder="Password" onChange={(e) => {handleErrorMessage(e);
+                    }} />
+                    {finalError.password && <p className='msgcolor' >{finalError.password}</p>}
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-4">
                     <label htmlFor="inputState">State</label>
-                    <select className="form-control"  onChange={hendleStatesChange}>
+                    <select className="form-control" onChange={(e) => handleErrorMessage(e)}>
                         <option value={""}>Choose...</option>
-                        <option value={"HR"}>Haryana</option> 
-                        <option value={"Other"}>Other..</option>                  
+                        <option value={"HR"}>Haryana</option>
+                        <option value={"Other"}>Other..</option>
                     </select>
-                    <p className='msgcolor'>{statesErr}</p>
                 </div>
                 <div className="form-group col-md-4">
                     <label htmlFor="inputState">Districts</label>
-                    <select  className="form-control" onChange={hendleDisttChange}>
+                    <select className="form-control" onChange={(e) => handleErrorMessage(e)}>
                         <option value={""}>Choose...</option>
                         <option value={"Ambala"}>Ambala </option>
                         <option value={"Bhiwani"}>Bhiwani</option>
-                        <option value={"Faridabad"}>Faridabad</option> 
-                        <option value={"Gurugram"}>Gurugram</option> 
-                        <option value={"Hisar"}>Hisar</option> 
-                        <option value={"Karnal"}>Karnal</option> 
-                        <option value={"Panchkula"}>Panchkula</option> 
+                        <option value={"Faridabad"}>Faridabad</option>
+                        <option value={"Gurugram"}>Gurugram</option>
+                        <option value={"Hisar"}>Hisar</option>
+                        <option value={"Karnal"}>Karnal</option>
+                        <option value={"Panchkula"}>Panchkula</option>
                         <option value={"Panipat"}>Panipat</option>
-                        <option value={"Sonipat"}>Sonipat</option> 
+                        <option value={"Sonipat"}>Sonipat</option>
                         <option value={"Yamunanagar"}>Yamunanagar</option>
-                        <option value={"Other"}>Other..</option>                  
+                        <option value={"Other"}>Other..</option>
                     </select>
-                    <p className='msgcolor' >{disttErr}</p>
+
                 </div>
-                    <div className="form-group col-md-2">
+                <div className="form-group col-md-4000">
                     <label htmlFor="inputZip">Pincode</label>
-                    <input type="text" className="form-control"  placeholder="343-456" onChange={hendlePincodeChange}/>
-                    <p className='msgcolor'>{pincodeErr}</p>
+                    <input type="text" className="form-control" name='pincode' placeholder="343-456" onChange={(e) => {
+                        handleErrorMessage(e);
+                    }} />
+                    {finalError.pincode && <p className='msgcolor' >{finalError.pincode}</p>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputAddress">Full Address</label>
-                    <input type="text" className="form-control"  placeholder="#34 Main St" onChange={hendleFulladdChange}/>
-                    <p className='msgcolor'>{fulladdressErr}</p>
-            </div>
-            </div>
-            <div className="form-group">
-                <div className="form-check">
-                    <input className="form-check-input" type="checkbox" />
-                    <label className="form-check-label" htmlFor="gridCheck">
-                        Check me out
-                    </label>
+                    <input type="text" className="form-control" name="fulladdress" placeholder="#34 Main St"onChange={(e) => {
+                        handleErrorMessage(e);
+                    }} />
+                    {finalError.fulladdress && <p className='msgcolor' >{finalError.fulladdress}</p>}
                 </div>
             </div>
-            <button  type="submit"  className="btn btn-primary mt-4" >Submit</button>
+            <button type="submit" className="btn btn-primary " >Submit</button>
         </form>
-  )
+    )
 }
 
 export default Jobform;

@@ -17,7 +17,7 @@ function Product() {
             })
     }
 
-    // console.log('products',products);
+    console.log('products',products);
 
     useEffect(() => {
         fetchData();
