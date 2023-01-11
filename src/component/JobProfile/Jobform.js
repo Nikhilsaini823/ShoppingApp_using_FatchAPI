@@ -6,7 +6,7 @@ export const Jobform = () => {
     const [finalError, setFinalError] = useState({})
     const [formData, setFormData] = useState({});
 
-    const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress'];
+    const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'distt'];
 
     const handleErrorMessage = (e) => {
         if (e.target.value === '') {
@@ -64,17 +64,24 @@ export const Jobform = () => {
                 <div className="form-group col-md-6">
                     <label htmlFor="text">Gender</label>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" value="male" name="radio" onChange={(e) => handleErrorMessage(e)} />
+                        <input className="form-check-input" type="radio" value="male" name="radio" onChange={(e) => {
+                        handleErrorMessage(e);
+                        }} />
                         <label className="radio-button" htmlFor="radio-button">Male</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" value="female" name="radio" onChange={(e) => handleErrorMessage(e)} />
+                        <input className="form-check-input" type="radio" value="female" name="radio" onChange={(e) => {
+                        handleErrorMessage(e);
+                        }} />
                         <label className="form-check-label" htmlFor="radio-button">Female</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="radio" value="others" onChange={(e) => handleErrorMessage(e)} />
+                        <input className="form-check-input" type="radio" name="radio" value="others" onChange={(e) => {
+                        handleErrorMessage(e);
+                        }} />
                         <label className="form-check-label" htmlFor="radio-button">Other</label>
                     </div>
+                    {finalError.gender && <p className='msgcolor' >{finalError.gender}</p>}
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="inputEmail4">Email</label>
@@ -93,15 +100,18 @@ export const Jobform = () => {
             <div className="form-row">
                 <div className="form-group col-md-4">
                     <label htmlFor="inputState">State</label>
-                    <select className="form-control" onChange={(e) => handleErrorMessage(e)}>
+                    <select className="form-control" onChange={(e) => {handleErrorMessage(e);
+                    }}>
                         <option value={""}>Choose...</option>
                         <option value={"HR"}>Haryana</option>
                         <option value={"Other"}>Other..</option>
                     </select>
+                    {finalError.state && <p className='msgcolor' >{finalError.state}</p>}
                 </div>
                 <div className="form-group col-md-4">
                     <label htmlFor="inputState">Districts</label>
-                    <select className="form-control" onChange={(e) => handleErrorMessage(e)}>
+                    <select className="form-control"  onChange={(e) => {handleErrorMessage(e);
+                    }} >
                         <option value={""}>Choose...</option>
                         <option value={"Ambala"}>Ambala </option>
                         <option value={"Bhiwani"}>Bhiwani</option>
@@ -115,7 +125,7 @@ export const Jobform = () => {
                         <option value={"Yamunanagar"}>Yamunanagar</option>
                         <option value={"Other"}>Other..</option>
                     </select>
-
+                    {finalError.distt && <p className='msgcolor' >{finalError.distt}</p>}
                 </div>
                 <div className="form-group col-md-4000">
                     <label htmlFor="inputZip">Pincode</label>
