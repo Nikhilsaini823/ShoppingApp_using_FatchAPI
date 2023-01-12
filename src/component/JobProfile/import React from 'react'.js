@@ -127,3 +127,39 @@ export const Jobform = () => {
 }
 
 export default Jobform;
+
+
+{/* <tbody>
+                        {data.map((item, index) => (
+                        <tr key={index}>
+                            <td>{formData.name}</td>
+                            <td>{formData.email}</td>
+                            <td>{formData.password}</td>
+                            <td>{formData.gender}</td>
+                            <td>{formData.state}</td>
+                            <td>{formData.districts}</td>
+                            <td>{formData.pincode}</td>
+                            <td>{formData.fulladdress}</td>
+                        </tr>
+                        )
+                    </tbody> */}
+
+                    const renderData = () => {
+                        finalData.push(formData);
+                        return finalData.map((final,index) => { 
+                          return (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className='space' >{final.name}</td>
+                                <td className='space'>{final.email}</td>
+                                <td className='space'>{final.password}</td>
+                                <td className='space'>{final.gender}</td>
+                                <td className='space'>{final.state}</td>
+                                <td className='space'>{final.districts}</td>
+                                <td className='space'>{final.pincode}</td>
+                                <td className='space'>{final.fulladdress}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    //   282932
