@@ -163,3 +163,42 @@ export default Jobform;
                         })
                       }
                     //   282932
+
+
+
+        //             <div className='container'>
+        //     <h1 className='mt-5'>Final Table</h1>
+        //     <table className="table container mt-3">
+        //         <thead>
+        //             <tr>
+        //                 <th>id</th>
+        //                 <th scope='col'>Name</th>
+        //                 <th scope="col">Email</th>
+        //                 <th scope="col">Password</th>
+        //                 <th scope="col">Gender</th>
+        //                 <th scope="col">States</th>
+        //                 <th scope="col">Districts</th>
+        //                 <th scope="col">Pincode</th>
+        //                 <th scope="col">Fulladdress</th>
+        //             </tr>
+        //         </thead>
+        //         <tbody>
+        //         {formData.map((final, index) => {
+        //             console.log('final',final)
+        //             return (
+        //                 <tr key={index}>
+        //                     <td>{index +1}</td>
+        //                     <td className='space'>{final.name}</td>
+        //                     <td className='space'>{final.email}</td>
+        //                     <td className='space'>{final.password}</td>
+        //                     <td className='space'>{final.gender}</td>
+        //                     <td className='space'>{final.state}</td>
+        //                     <td className='space'>{final.districts}</td>
+        //                     <td className='space'>{final.pincode}</td>
+        //                     <td className='space'>{final.fulladdress}</td>
+        //                 </tr>
+        //              );
+        //             })}
+        //         </tbody>
+        //     </table>
+        // </div>

@@ -1,11 +1,13 @@
-import React from 'react'
 import { useState } from "react";
 import "./Jobform.css"
+import Provider from './Provider';
+import Context from './Context';
+import React, {Fragment} from "react";
+
 
 export const Jobform = () => {
     const [finalError, setFinalError] = useState({})
     const [formData, setFormData] = useState({});
-    const [finalData, setFinalData] = useState([]);
 
     const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'districts'];
     
@@ -16,7 +18,6 @@ export const Jobform = () => {
             for (const key in formData) {
                 if (key === e.target.name) {
                     delete formData[key];
-                    setFinalData({...finalData})
                 } else {
                     setFormData({ ...formData });
                     
@@ -29,17 +30,15 @@ export const Jobform = () => {
                     delete finalError[key];
                 } else {
                     setFinalError({ ...finalError });
-                    // setFinalData({...finalData})
                 }
             }
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
     }
-    // const finalData = [];
     const validate = (event) => {
         event.preventDefault();
-        finalData.push(formData);
         if (formData && Object.keys(formData).length === formFields.length) { 
+            // setFinalData({...finalData})
         }
         else {
             let finalError = {};
@@ -51,7 +50,31 @@ export const Jobform = () => {
             setFinalError({ ...finalError });
         }
     }
-    // console.log(finalData)
+    const AllData = () =>{
+        return(
+            <Context.Consumer>
+                {
+                    (context)=>(
+                        <Fragment>
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td className='space'>{context.data.name}</td>
+                                        <td className='space'>{context.data.email}</td>
+                                        <td className='space'>{context.data.password}</td>
+                                        <td className='space'>{context.data.gender}</td>
+                                        <td className='space'>{context.data.state}</td>
+                                        <td className='space'>{context.data.districts}</td>
+                                        <td className='space'>{context.data.pincode}</td>
+                                        <td className='space'>{context.data.fulladdress}</td>
+                                    </tr>
+                                </thead>
+                        </Fragment>
+                    )
+                }
+            </Context.Consumer>
+        );
+    }
     return (
         <div>
             <form onSubmit={validate} className='container'>
@@ -147,42 +170,26 @@ export const Jobform = () => {
                 </div>
                 <button type="submit"  className="btn btn-primary mt-3 " >Submit</button>
             </form>
-            
-            <div className='container'>
+            <div className="container">
                 <h1 className='mt-5'>Final Table</h1>
-                <table className="table container mt-3">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th scope='col'>Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Password</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">States</th>
-                            <th scope="col">Districts</th>
-                            <th scope="col">Pincode</th>
-                            <th scope="col">Fulladdress</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {finalData.map((final, index) => {
-                        console.log('final',final)
-                        return (
-                            <tr key={index}>
-                                <td>{index +1}</td>
-                                <td className='space'>{final.name}</td>
-                                <td className='space'>{final.email}</td>
-                                <td className='space'>{final.password}</td>
-                                <td className='space'>{final.gender}</td>
-                                <td className='space'>{final.state}</td>
-                                <td className='space'>{final.districts}</td>
-                                <td className='space'>{final.pincode}</td>
-                                <td className='space'>{final.fulladdress}</td>
+                <Provider>
+                    <table className="table container mt-3">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th scope='col'>Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">States</th>
+                                <th scope="col">Districts</th>
+                                <th scope="col">Pincode</th>
+                                <th scope="col">Fulladdress</th>
                             </tr>
-                         );
-                        })}
-                    </tbody>
-                </table>
+                        </thead>
+                    <AllData/> 
+                  </table> 
+                </Provider>
             </div>
         </div>
     )
