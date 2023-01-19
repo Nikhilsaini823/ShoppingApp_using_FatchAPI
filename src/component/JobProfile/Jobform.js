@@ -1,9 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Jobform.css"
-import Provider from './Provider';
-import Context from './Context';
-import React, {Fragment} from "react";
-
 
 export const Jobform = () => {
     const [finalError, setFinalError] = useState({})
@@ -35,8 +31,11 @@ export const Jobform = () => {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
     }
+    let db =[]
     const validate = (event) => {
-        event.preventDefault();
+        event.preventDefault();                
+        db.push(formData)
+        // console.log(db)
         if (formData && Object.keys(formData).length === formFields.length) { 
             // setFinalData({...finalData})
         }
@@ -49,32 +48,10 @@ export const Jobform = () => {
             }
             setFinalError({ ...finalError });
         }
+
     }
-    const AllData = () =>{
-        return(
-            <Context.Consumer>
-                {
-                    (context)=>(
-                        <Fragment>
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td className='space'>{context.data.name}</td>
-                                        <td className='space'>{context.data.email}</td>
-                                        <td className='space'>{context.data.password}</td>
-                                        <td className='space'>{context.data.gender}</td>
-                                        <td className='space'>{context.data.state}</td>
-                                        <td className='space'>{context.data.districts}</td>
-                                        <td className='space'>{context.data.pincode}</td>
-                                        <td className='space'>{context.data.fulladdress}</td>
-                                    </tr>
-                                </thead>
-                        </Fragment>
-                    )
-                }
-            </Context.Consumer>
-        );
-    }
+    
+    
     return (
         <div>
             <form onSubmit={validate} className='container'>
@@ -170,27 +147,6 @@ export const Jobform = () => {
                 </div>
                 <button type="submit"  className="btn btn-primary mt-3 " >Submit</button>
             </form>
-            <div className="container">
-                <h1 className='mt-5'>Final Table</h1>
-                <Provider>
-                    <table className="table container mt-3">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th scope='col'>Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Gender</th>
-                                <th scope="col">States</th>
-                                <th scope="col">Districts</th>
-                                <th scope="col">Pincode</th>
-                                <th scope="col">Fulladdress</th>
-                            </tr>
-                        </thead>
-                    <AllData/> 
-                  </table> 
-                </Provider>
-            </div>
         </div>
     )
 }
