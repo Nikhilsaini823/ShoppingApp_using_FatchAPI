@@ -44,3 +44,4 @@ myapp/.env.production.local
 myapp/npm-debug.log*
 myapp/yarn-debug.log*
 myapp/yarn-error.log*	
+node_modules

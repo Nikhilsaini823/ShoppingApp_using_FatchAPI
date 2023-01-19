@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./Jobform.css"
+import { useDispatch, useSelector } from "react-redux";
+import { saveUser } from '../Action/DataSlice';
 
 export const Jobform = () => {
     const [finalError, setFinalError] = useState({})
     const [formData, setFormData] = useState({});
-
+    const dispatch = useDispatch();
+    const { userData } = useSelector(state => state.dataaction);
+    console.log('userData', userData)
     const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'districts'];
-    
 
     const handleErrorMessage = (e) => {
         if (e.target.value === '') {
@@ -16,10 +19,10 @@ export const Jobform = () => {
                     delete formData[key];
                 } else {
                     setFormData({ ...formData });
-                    
+
                 }
             }
-        } 
+        }
         else {
             for (const key in finalError) {
                 if (key === e.target.name) {
@@ -31,13 +34,14 @@ export const Jobform = () => {
             setFormData({ ...formData, [e.target.name]: e.target.value });
         }
     }
-    let db =[]
     const validate = (event) => {
-        event.preventDefault();                
-        db.push(formData)
-        // console.log(db)
-        if (formData && Object.keys(formData).length === formFields.length) { 
+        event.preventDefault();
+        // finalData.push(formData)
+
+
+        if (formData && Object.keys(formData).length === formFields.length) {
             // setFinalData({...finalData})
+            dispatch(saveUser(formData));
         }
         else {
             let finalError = {};
@@ -50,10 +54,9 @@ export const Jobform = () => {
         }
 
     }
-    
-    
+
     return (
-        <div>
+        <>
             <form onSubmit={validate} className='container'>
                 <h1 className="mt-3">Job Form</h1>
                 <div className="form-row mt-3">
@@ -68,19 +71,19 @@ export const Jobform = () => {
                         <label htmlFor="text">Gender</label>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" value="male" name="gender" onChange={(e) => {
-                            handleErrorMessage(e);
+                                handleErrorMessage(e);
                             }} />
                             <label className="radio-button" htmlFor="radio-button">Male</label>
                         </div>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" value="female" name="gender" onChange={(e) => {
-                            handleErrorMessage(e);
+                                handleErrorMessage(e);
                             }} />
                             <label className="form-check-label" htmlFor="radio-button">Female</label>
                         </div>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="gender" value="others" onChange={(e) => {
-                            handleErrorMessage(e);
+                                handleErrorMessage(e);
                             }} />
                             <label className="form-check-label" htmlFor="radio-button">Other</label>
                         </div>
@@ -95,7 +98,8 @@ export const Jobform = () => {
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="inputPassword4">Password</label>
-                        <input type="password" className="form-control" name='password' placeholder="Password" onChange={(e) => {handleErrorMessage(e);
+                        <input type="password" className="form-control" name='password' placeholder="Password" onChange={(e) => {
+                            handleErrorMessage(e);
                         }} />
                         {finalError.password && <p className='msgcolor' >{finalError.password}</p>}
                     </div>
@@ -103,7 +107,8 @@ export const Jobform = () => {
                 <div className="form-row">
                     <div className="form-group col-md-4">
                         <label htmlFor="inputState">State</label>
-                        <select className="form-control" name='state' onChange={(e) => {handleErrorMessage(e);
+                        <select className="form-control" name='state' onChange={(e) => {
+                            handleErrorMessage(e);
                         }}>
                             <option value={""}>Choose...</option>
                             <option value={"HR"}>Haryana</option>
@@ -113,7 +118,8 @@ export const Jobform = () => {
                     </div>
                     <div className="form-group col-md-4">
                         <label htmlFor="inputState">Districts</label>
-                        <select className="form-control" name='districts' onChange={(e) => {handleErrorMessage(e);
+                        <select className="form-control" name='districts' onChange={(e) => {
+                            handleErrorMessage(e);
                         }} >
                             <option value={""}>Choose...</option>
                             <option value={"Ambala"}>Ambala </option>
@@ -139,15 +145,49 @@ export const Jobform = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputAddress">Full Address</label>
-                        <input type="text" className="form-control" name="fulladdress" placeholder="#34 Main St"onChange={(e) => {
+                        <input type="text" className="form-control" name="fulladdress" placeholder="#34 Main St" onChange={(e) => {
                             handleErrorMessage(e);
                         }} />
                         {finalError.fulladdress && <p className='msgcolor' >{finalError.fulladdress}</p>}
                     </div>
                 </div>
-                <button type="submit"  className="btn btn-primary mt-3 " >Submit</button>
+                <button type="submit" className="btn btn-primary mt-3 " >Submit</button>
             </form>
-        </div>
+            <div className="container">
+                <h1 className='mt-5'>Final Table</h1>
+                <table className="table container mt-3">
+                    <tbody>
+                        <tr>
+                            <th>id</th>
+                            <th scope='col'>Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">States</th>
+                            <th scope="col">Districts</th>
+                            <th scope="col">Pincode</th>
+                            <th scope="col">Fulladdress</th>
+                        </tr>
+                        {userData.map(function (item, index) {
+                            return (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.password}</td>
+                                    <td>{item.gender}</td>
+                                    <td>{item.state}</td>
+                                    <td>{item.districts}</td>
+                                    <td>{item.pincode}</td>
+                                    <td>{item.fulladdress}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+
+                </table>
+            </div>
+        </>
     )
 }
 
