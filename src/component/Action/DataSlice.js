@@ -9,10 +9,15 @@ const DataSlice = createSlice({
         saveUser: (state, action) => {
             return {
                 ...state,
-                userData: [action.payload, ...state.userData]
+                userData: [...state.userData, action.payload]
+            }
+        },
+        removeList: (state, action) => {
+            return {
+                
             }
         }
     }
 });
-export const { saveUser } = DataSlice.actions
+export const { saveUser, removeList } = DataSlice.actions
 export default DataSlice.reducer;

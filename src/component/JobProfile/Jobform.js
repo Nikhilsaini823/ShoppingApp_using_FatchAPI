@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import "./Jobform.css"
 import { useDispatch, useSelector } from "react-redux";
-import { saveUser } from '../Action/DataSlice';
+import { removeList, saveUser } from '../Action/DataSlice';
 
 export const Jobform = () => {
     const [finalError, setFinalError] = useState({})
     const [formData, setFormData] = useState({});
     const dispatch = useDispatch();
     const { userData } = useSelector(state => state.dataaction);
-    console.log('userData', userData)
+    // console.log('userData', userData)
     const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'districts'];
 
     const handleErrorMessage = (e) => {
@@ -36,12 +36,11 @@ export const Jobform = () => {
     }
     const validate = (event) => {
         event.preventDefault();
-        // finalData.push(formData)
-
-
+        // dispatch(saveUser({name:'sdgdg',email:'hdfhdf@gmail.com'}));
         if (formData && Object.keys(formData).length === formFields.length) {
             // setFinalData({...finalData})
             dispatch(saveUser(formData));
+            
         }
         else {
             let finalError = {};
@@ -54,6 +53,9 @@ export const Jobform = () => {
         }
 
     }
+    // const handleDeleteClick = () => {
+    //     dispatch(removeList({list: list}));
+    //   }
 
     return (
         <>
@@ -180,6 +182,8 @@ export const Jobform = () => {
                                     <td>{item.districts}</td>
                                     <td>{item.pincode}</td>
                                     <td>{item.fulladdress}</td>
+                                    <td><button type="button" onClick={()=>{dispatch(removeList(item.index))}} className="btn btn-outline-primary">Delete</button></td>
+                                    <td><button type="button" className="btn btn-outline-primary">Update</button></td>
                                 </tr>
                             )
                         })}
