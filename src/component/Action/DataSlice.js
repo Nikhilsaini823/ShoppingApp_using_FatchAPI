@@ -4,7 +4,7 @@ const DataSlice = createSlice({
     name: "dataaction",
     initialState: {
         userData: [],
-        currentUser: {}
+        currentUsers: {}
     },
     reducers: {
         saveUser: (state, action) => {
@@ -22,16 +22,20 @@ const DataSlice = createSlice({
             }
         },
         editData: (state, action) => {
-            console.log("currentuser", action.payload)
-            return {
-                ...state,
-                userData: {
-                    [action.id]: {
-                        currentUser: { $set: action.payload }
-                    }
+            // state.currentUsers = action.payload
+            // console.log("value",action.payload )
+
+            var user = [...state.userData]
+            
+            user.map(function(item) {
+                if(item.id == action.payload){
+                    state.currentUsers = item;
                 }
+            })
+            
+
+            // state.currentUsers = user[0];
             }
-        }
     }
 });
 export const { saveUser, deleteData, editData } = DataSlice.actions

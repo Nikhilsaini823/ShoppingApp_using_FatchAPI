@@ -9,6 +9,7 @@ import Sliders from "./component/Home/Slider/Sliders";
 import Products from "./component/Product/Products";
 import ProductDetail from "./component/Product/ProductDetail";
 import Jobform from "./component/JobProfile/Jobform";
+import EditJobForm from "./component/JobProfile/EditJobForm";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/product" element={<PublicRoute component={Products}/>}/>
       <Route path="/productdetails/:id" element={<PublicRoute component={ProductDetail}/>}/>
       <Route path="/jobform" element={<PublicRoute component={Jobform}/>}/>
+      <Route exact path="/editData/:itemid"element={<PublicRoute component={EditJobForm}/>}/>
     </Routes>
   </BrowserRouter>
   );
