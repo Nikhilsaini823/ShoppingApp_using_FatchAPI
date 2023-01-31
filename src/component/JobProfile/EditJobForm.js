@@ -1,59 +1,70 @@
+import { current } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { editData } from '../Action/DataSlice';
+import {  Link, useNavigate, useParams } from 'react-router-dom';
+import { editData, updateData } from '../Action/DataSlice';
 
 function EditJobForm() {
-  // const [editvalue, setEditvalue] = useState({});
     const { itemid } = useParams(item => item.dataaction);
-    const { currentUsers } = useSelector(state => state.dataaction);
+    const { currentUsers, userData } = useSelector(state => state.dataaction);
     const [editUser, setEditUser] = useState({});
-    // const navigate = useNavigate();
-    
-    // console.log('data',itemid)
-    // console.log('currentUsers',currentUsers)
+    const navigator = useNavigate()
+
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(editData(itemid))
       setEditUser(currentUsers);
-    },[itemid,currentUsers])
+    },[currentUsers])
 
-    console.log('editUser',editUser)
+    function handleEdit(e){
+      e.preventDefault();
+      const finalData = [];
+      userData.map((item) => {
+        if(item.id == editUser.id){
+          finalData.push(editUser);
+        }else{
+          finalData.push(item);
+        }
+      })
+      dispatch(updateData(finalData));
+      navigator('/jobform');
+    }
+    
+    function hendelinput(e){
+      const updatedData = {...editUser, [e.target.name]:e.target.value};
+      setEditUser(updatedData);      
+    }
     
     return (
-          <form  className='container'>
+        <>
+          <form onSubmit={handleEdit} className='container'>
             <h1 className="mt-3">Edit Form</h1>
             <div className="form-row mt-3">
               <div className="form-group col-md-3">
                 <label htmlFor="text">Emp.ID</label>
                 <input type="number" className="form-control" name='id' defaultValue={editUser.id}
-                  placeholder="123" onChange={(e) => {
-                    // SetId(currentUsers.value)
-                  }}
+                  placeholder="123" 
                 />
               </div>
               <div className="form-group col-md-3">
                 <label htmlFor="text">Name</label>
                 <input type="text" className="form-control" name='name'
                 defaultValue={currentUsers.name}
-                  placeholder="name" onChange={(e) => {
-                  }} />
+                  placeholder="name" onChange={hendelinput} />
                 
               </div>
               <div className="form-group ">
                 <label htmlFor="text">Gender</label>
                 <div className="form-check">
                   <input className="form-check-input" type="radio" defaultValue='male' name="gender"
-                    onChange={(e) => {
-                    }}
+                    onChange={hendelinput}
                     checked={editUser.gender === 'male' && 'checked'}
                   />
                   <label className="radio-button" htmlFor="radio-button">Male</label>
                 </div>
                 <div className="form-check">
                   <input className="form-check-input" type="radio" defaultValue="female" name="gender"
-                    onChange={(e) => {
-                    }}
+                    onChange={hendelinput}
                     checked={editUser.gender === 'female' && 'checked'}
                   />
                   <label className="form-check-label" htmlFor="radio-button">Female</label>
@@ -61,8 +72,7 @@ function EditJobForm() {
                 <div className="form-check">
                   <input className="form-check-input" type="radio" name="gender" defaultValue='other'
                     checked={editUser.gender === 'others' && 'checked'}
-                    onChange={(e) => {
-                    }} />
+                    onChange={hendelinput}/>
                   <label className="form-check-label" htmlFor="radio-button">Other</label>
                 </div>
               </div>
@@ -71,15 +81,13 @@ function EditJobForm() {
                 <input type="email" className="form-control" name='email'
                defaultValue={editUser.email}
                   placeholder="Email"
-                  onChange={(e) => {
-                  }} />
+                  onChange={hendelinput} />
               </div>
               <div className="form-group col-md-4">
                 <label htmlFor="inputPassword4">Password</label>
                 <input type="password" className="form-control" name='password'
                 defaultValue={editUser.password}
-                  placeholder="Password" onChange={(e) => {
-                  }} />
+                  placeholder="Password" onChange={hendelinput} />
                 
               </div>
             </div>
@@ -87,9 +95,8 @@ function EditJobForm() {
               <div className="form-group col-md-4">
                 <label htmlFor="inputState">State</label>
                 <select className="form-control" name='state'
-                defaultValue={editUser.state}
-                  onChange={(e) => {
-                  }}>
+                value={editUser.state}
+                onChange={hendelinput}>
                   <option value={""}>Choose...</option>
                   <option value={"HR"}>Haryana</option>
                   <option value={"Other"}>Other..</option>
@@ -99,9 +106,8 @@ function EditJobForm() {
               <div className="form-group col-md-4">
                 <label htmlFor="inputState">Districts</label>
                 <select className="form-control" name='districts'
-                defaultValue={editUser.districts}
-                 onChange={(e) => {
-                }} >
+                value={editUser.districts}
+                onChange={hendelinput} >
                   <option value={""}>Choose...</option>
                   <option value={"Ambala"}>Ambala </option>
                   <option value={"Bhiwani"}>Bhiwani</option>
@@ -120,21 +126,22 @@ function EditJobForm() {
                 <label htmlFor="inputZip">Pincode</label>
                 <input inputMode="numeric" maxLength="6" type="text" className="form-control" name='pincode'
                 defaultValue={editUser.pincode}
-                  placeholder="343-456" onChange={(e) => {
-                  }} />
+                  placeholder="343-456" onChange={hendelinput} />
               </div>
               <div className="form-group col-md-5">
                 <label htmlFor="inputAddress">Full Address</label>
                 <input type="text" className="form-control" name="fulladdress"
                 defaultValue={editUser.fulladdress}
-                  placeholder="#34 Main St" onChange={(e) => {
-                  }} />
+                  placeholder="#34 Main St" onChange={hendelinput} />
               </div>
             </div>
             <button type="submit" className="btn btn-primary mt-3 "  
-            //  onClick={handleEdit()}
-             >Edit Data</button>
+             >Update Data</button>
+             <Link type="submit" to='/jobform' className="btn btn-primary mt-3 mx-3 "  
+             >Back</Link>
           </form>
+          
+        </>
     )
 }
 

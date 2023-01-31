@@ -26,17 +26,21 @@ const DataSlice = createSlice({
             // console.log("value",action.payload )
 
             var user = [...state.userData]
-            
-            user.map(function(item) {
-                if(item.id == action.payload){
+
+            user.map(function (item) {
+                if (item.id == action.payload) {
                     state.currentUsers = item;
                 }
             })
-            
+
 
             // state.currentUsers = user[0];
-            }
+        },
+        updateData: (state, action) => {
+            state.userData = action.payload;
+        }
     }
+
 });
-export const { saveUser, deleteData, editData } = DataSlice.actions
+export const { saveUser, deleteData, editData, updateData } = DataSlice.actions
 export default DataSlice.reducer;
