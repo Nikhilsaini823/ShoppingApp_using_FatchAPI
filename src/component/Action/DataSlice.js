@@ -15,10 +15,10 @@ const DataSlice = createSlice({
             }
         },
         deleteData: (state, action) => {
-            console.log('data', action.payload)
+            // console.log('data', action.payload)
             return {
                 ...state,
-                userData: [...state.userData.filter((item) => item.id !== action.payload)]
+                userData: [...state.userData.filter((item) => item.email !== action.payload)]
             }
         },
         editData: (state, action) => {
@@ -28,7 +28,7 @@ const DataSlice = createSlice({
             var user = [...state.userData]
 
             user.map(function (item) {
-                if (item.id == action.payload) {
+                if (item.email === action.payload) {
                     state.currentUsers = item;
                 }
             })

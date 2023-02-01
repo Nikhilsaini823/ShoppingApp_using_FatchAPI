@@ -10,7 +10,7 @@ export const Jobform = () => {
   const dispatch = useDispatch();
   const { userData } = useSelector(state => state.dataaction);
   // console.log('userData', userData)
-  const formFields = ['id', 'name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'districts'];
+  const formFields = ['name', 'email', 'password', 'pincode', 'fulladdress', 'gender', 'state', 'districts'];
   // const [editdata, setEditData] = useState(false)
   const handleErrorMessage = (e) => {
     if (e.target.value === '') {
@@ -61,14 +61,6 @@ export const Jobform = () => {
       <form onSubmit={validate} className='container'>
         <h1 className="mt-3">Job Form</h1>
         <div className="form-row mt-3">
-          <div className="form-group col-md-3">
-            <label htmlFor="text">Emp.ID</label>
-            <input type="number" className="form-control" name='id'
-              placeholder="123" onChange={(e) => {
-                handleErrorMessage(e);
-              }}
-            />
-          </div>
           <div className="form-group col-md-3">
             <label htmlFor="text">Name</label>
             <input type="text" className="form-control" name='name'
@@ -190,10 +182,10 @@ export const Jobform = () => {
               <th scope="col">Pincode</th>
               <th scope="col">Fulladdress</th>
             </tr>
-            {userData.map(function (item, index) {
+            {userData.map(function (item,index) {
               return (
-                <tr key={index}>
-                  <td>{item.id}</td>
+                <tr key={item.email} >
+                  <td>{index + 1}</td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
                   <td>{item.password}</td>
@@ -203,8 +195,8 @@ export const Jobform = () => {
                   <td>{item.pincode}</td>
                   <td>{item.fulladdress}</td>
                   <>
-                    <td><button type="button" onClick={() => { dispatch(deleteData(item.id)) }} className="btn btn-outline-primary">Delete</button></td>
-                    <td><Link type="button" to={`/editData/${item.id}`} className="btn btn-outline-primary">Edit</Link></td>
+                    <td><button type="button" onClick={() => { dispatch(deleteData(item.email)) }} className="btn btn-outline-primary">Delete</button></td>
+                    <td><Link type="button" to={`/editData/${item.email}`} className="btn btn-outline-primary">Edit</Link></td>
                   </>
 
                 </tr>

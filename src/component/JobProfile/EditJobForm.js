@@ -1,4 +1,4 @@
-import { current } from '@reduxjs/toolkit';
+
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import {  Link, useNavigate, useParams } from 'react-router-dom';
@@ -20,7 +20,7 @@ function EditJobForm() {
       e.preventDefault();
       const finalData = [];
       userData.map((item) => {
-        if(item.id == editUser.id){
+        if(item.email == editUser.email){
           finalData.push(editUser);
         }else{
           finalData.push(item);
@@ -40,12 +40,6 @@ function EditJobForm() {
           <form onSubmit={handleEdit} className='container'>
             <h1 className="mt-3">Edit Form</h1>
             <div className="form-row mt-3">
-              <div className="form-group col-md-3">
-                <label htmlFor="text">Emp.ID</label>
-                <input type="number" className="form-control" name='id' defaultValue={editUser.id}
-                  placeholder="123" 
-                />
-              </div>
               <div className="form-group col-md-3">
                 <label htmlFor="text">Name</label>
                 <input type="text" className="form-control" name='name'
